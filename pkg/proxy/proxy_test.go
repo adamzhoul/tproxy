@@ -27,3 +27,12 @@ func TestProxy(t *testing.T) {
 	body, _ := ioutil.ReadAll(res.Body)
 	log.Println(string(body))
 }
+
+func server() {
+
+	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+		rw.Write([]byte("hello world"))
+	})
+
+	log.Fatal(http.ListenAndServe(":9091", nil))
+}
