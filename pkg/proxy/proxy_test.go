@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -23,6 +24,6 @@ func TestProxy(t *testing.T) {
 	}
 	defer res.Body.Close()
 
-	log.Println(res.StatusCode, req.Response)
-
+	body, _ := ioutil.ReadAll(res.Body)
+	log.Println(string(body))
 }
