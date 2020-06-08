@@ -7,8 +7,10 @@ import (
 )
 
 var (
-	httpModifier map[string]func(r *http.Request)
-	mutex        sync.Mutex
+	httpFilter           map[string]func(r *http.Request)
+	httpModifier         map[string]func(r *http.Request)
+	httpResponseModifier map[string]func()
+	mutex                sync.Mutex
 )
 
 func AddHttpModifierExtend(k string, f func(r *http.Request)) {
@@ -29,6 +31,8 @@ func AddHttpModifierExtend(k string, f func(r *http.Request)) {
 func GetDirector() func(*http.Request) {
 	return func(r *http.Request) {
 
+		// execute sequence is very important
+		// TODO: for now, only 1 extend , do it later
 		for k, f := range httpModifier {
 			log.Println("run :modifier", k)
 			f(r)

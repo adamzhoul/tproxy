@@ -8,7 +8,7 @@ import (
 // regist extend to proxy director
 func init() {
 
-	AddHttpModifierExtend("demo", demoModifyRequest)
+	//AddHttpModifierExtend("demo", demoModifyRequest)
 }
 
 func demoModifyRequest(r *http.Request) {

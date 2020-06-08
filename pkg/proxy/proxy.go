@@ -7,21 +7,20 @@ import (
 )
 
 type Tproxy struct {
-	httputil.ReverseProxy
+	rp httputil.ReverseProxy
 }
 
 func NewTproxy() *Tproxy {
 
-	t := Tproxy{}
-	t.Director = extend.GetDirector()
+	t := Tproxy{
+		rp: httputil.ReverseProxy{
+			Director: extend.GetDirector(),
+		},
+	}
 	return &t
 }
 
-func NewTProxyWithModifierExtend(k string, f func(*http.Request)) *Tproxy {
+func (t *Tproxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
-	t := Tproxy{}
-	extend.AddHttpModifierExtend(k, f)
-	t.Director = extend.GetDirector()
-
-	return &t
+	t.rp.ServeHTTP(rw, req)
 }
